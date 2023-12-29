@@ -29,7 +29,6 @@ const App = () => {
   const [ voiceActor, setVoiceActor ] = useState("Matthew")
   const [ buttonText, setButtonText ] = useState("Speak Now")
   const [ disabled, setDisabled ] = useState(false)
-
   const playAudio = url => {
     const audioInstance = new AudioHelper(url)
     audioInstance.play()
@@ -42,30 +41,37 @@ const App = () => {
     })
   }
 
+  const callToast = message => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
+
   const handleSubmit = async () => {
+    if (sentence === '') {
+      callToast('Invalid input')
+      return
+    }
     setDisabled(true)
     const payload = {
       text: sentence,
       voice: voiceActor
     }
-
     try {
       setButtonText('Reading...')
-      const { data } = await axios.post('https://0jg934ig72.execute-api.ap-southeast-1.amazonaws.com/dev/speak', payload)
+      const { data } = await axios.post(`${import.meta.env.VITE_LAMBDA_URL}/dev/speak`, payload)
       const url = data.url
       setButtonText('Speaking...')
       playAudio(url)
     } catch (error) {
-      toast.error('There was an error in processing your input', {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      callToast('There was an error in processing your input')
       console.error(error)
     }
   }
