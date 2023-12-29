@@ -1,0 +1,16 @@
+service: speak-service 
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-1
+  role: # Your iam policy for lambda
+      
+functions:
+  speak:
+    handler: handler.speak
+    name: ${sls:stage}-speak-service
+    events:
+      - http: 
+          path: speak
+          method: post
+          cors: true
