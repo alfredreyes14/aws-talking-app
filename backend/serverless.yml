@@ -1,14 +1,17 @@
-service: speak-service 
+service: speak-service-v2
+plugins:
+  - serverless-dotenv-plugin
+useDotenv: true
 provider:
   name: aws
   runtime: nodejs20.x
   region: ap-southeast-1
-  role: # Your iam policy for lambda
+  role: ${env:ROLE}
       
 functions:
   speak:
     handler: handler.speak
-    name: ${sls:stage}-speak-service
+    name: ${sls:stage}-speak-service-v2
     events:
       - http: 
           path: speak

@@ -16,7 +16,7 @@ module.exports.speak = (event, context, callback) => {
       let data = response.data;
       let audioStream = data.AudioStream;
       let key = uuidv4();
-      let s3BucketName = ''; // Your bucket name  
+      let s3BucketName = process.env.BUCKET_NAME;  
       // 2. Saving the audio stream to S3
       let params = {
         Bucket: s3BucketName,
