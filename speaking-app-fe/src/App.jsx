@@ -2,8 +2,8 @@ import './App.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useState } from 'react'
-import axios from 'axios'
 import AudioHelper from './utils/Audio'
+import { send } from './services/speak';
 
 const voices = [
   {
@@ -60,18 +60,18 @@ const App = () => {
       return
     }
     setDisabled(true)
-    const payload = {
+    const payload = JSON.stringify({
       text: sentence,
       voice: voiceActor
-    }
+    })
     try {
-      setButtonText('Reading...')
-      const { data } = await axios.post(`${import.meta.env.VITE_LAMBDA_URL}/dev/speak`, payload)
+      const data = await send('/dev/speak', payload)
       const url = data.url
       setButtonText('Speaking...')
       playAudio(url)
     } catch (error) {
       callToast('There was an error in processing your input')
+      setDisabled(false)
       console.error(error)
     }
   }

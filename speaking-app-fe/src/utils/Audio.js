@@ -2,7 +2,6 @@ class AudioHelper {
   constructor (url) {
     this.url = url
     this.audio = new Audio()
-    this.hasEnded = false
   }
 
   play () {

@@ -2,7 +2,16 @@ let AWS = require("aws-sdk");
 let polly = new AWS.Polly();
 let s3 = new AWS.S3();
 const { v4: uuidv4 } = require('uuid')
+const middy = require('middy')
+const { cors } = require('middy/middlewares')
 
+/**
+ * Create an object in s3 and return a signed url
+ * @param { params } - data needed to be saved in s3
+ * @param { bucketName } - the s3 bucket name
+ * @param { key } - the object key
+ * @param { callback } - callback function to return the signed url
+ */
 const createOutputFileInS3 = ({ params, bucketName, key, callback }) => {
   s3.putObject(params)
     .on("success", function (response) {
@@ -24,9 +33,6 @@ const createOutputFileInS3 = ({ params, bucketName, key, callback }) => {
       };
       callback(null, {
         statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin" : "*"
-        },
         body: JSON.stringify(result)
       });
     })
@@ -36,7 +42,7 @@ const createOutputFileInS3 = ({ params, bucketName, key, callback }) => {
     .send();
 }
 
-module.exports.speak = (event, context, callback) => {
+const handler = (event, _, callback) => {
   let data = JSON.parse(event.body);
   const pollyParams = {
     OutputFormat: "mp3",
@@ -49,13 +55,15 @@ module.exports.speak = (event, context, callback) => {
       let data = response.data;
       let audioStream = data.AudioStream;
       let key = uuidv4();
-      let bucketName = process.env.BUCKET_NAME;  
-      // 2. Saving the audio stream to S3
+      let bucketName = process.env.BUCKET_NAME; 
+
       let params = {
         Bucket: bucketName,
         Key: key + '.mp3',
         Body: audioStream
       };
+
+      // Save the output to s3 the return a signed url for the object
       createOutputFileInS3({
         params,
         bucketName,
@@ -66,11 +74,12 @@ module.exports.speak = (event, context, callback) => {
     .on("error", function (err) {
       callback(null, {
         statusCode: 500,
-        headers: {
-          "Access-Control-Allow-Origin" : "*"
-        },
         body: JSON.stringify(err)
       });
     })
     .send();
 };
+
+
+const speak = middy(handler).use(cors())
+module.exports = { speak }

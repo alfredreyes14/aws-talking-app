@@ -15,5 +15,7 @@ functions:
     events:
       - http: 
           path: speak
+          authorizer:
+            type: aws_iam
           method: post
           cors: true
