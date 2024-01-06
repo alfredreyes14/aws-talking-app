@@ -20,7 +20,7 @@ Now we're a familiar with the tools, I wanted to guide you in building this app,
 #### Front End
 Let's start by building the front end side. You need to create a fresh react project. It doesn't matter if this is CRA generated or VITE the outcome is just the same.
 
-1. Start by running:
+Start by running:
 
 `npm create vite@latest`
 
