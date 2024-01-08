@@ -27,7 +27,7 @@ After setting up a free-tier account and setting all appropriate account setting
 1. Login your IAM user account.
 2. Search IAM in the search bar above.
 
-![iam-search](./assets/iam-1.png)
+![iam-search](assets/iam-1.PNG)
 
 
 ### Front End
