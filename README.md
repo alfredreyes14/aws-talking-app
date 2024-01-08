@@ -114,7 +114,7 @@ For the handler code please check **/backend/handler.js**.
 ### Front End
 Create a fresh react project. It doesn't matter if this is CRA generated or VITE the outcome is just the same.
 
-1. Start by running:
+Start by running:
 
 `npm create vite@latest`
 
