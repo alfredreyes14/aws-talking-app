@@ -1,5 +1,6 @@
 # Overview
-The main function of this project is convert the input text to speech. This is made possible by utilizing the power of AWS cloud services like **Lambda**, **API Gateway**, **IAM**, **S3**, and **Polly**. I used [Serverless](https://www.serverless.com) framework as well for a hassle free back end service setup. This application's emphasis is mainly on the cloud technology side not in the UI so apologies for the very basic UI.
+The main function of this project is convert the input text to speech. This is made possible by utilizing the power of AWS cloud services like **Lambda**, **API Gateway**, **IAM**, **S3**, and **Polly**. I used [Serverless](https://www.serverless.com) framework as well for a hassle free back end service setup. This application's emphasis is mainly on the cloud technology side not in the UI so apologies for the very basic UI. You can access the sample app [here](http://talking-app-bucket-deploy.s3-website-ap-southeast-1.amazonaws.com/).
+![iam-search](assets/snapshot.PNG)
 
 # Stack
 In order to build this app, we've used services that are mentioned above. For the UI I used plain React.js (Vite) for a much quicker setup. All in all these are the complete lists of tools/services that I used:
@@ -144,4 +145,4 @@ I won't be posting the whole code here you can check **/speaking-app-fe/src** fo
 
 Use `npm run dev` to run the project.
 
-I hope this documentation helps, happy learning!
+
